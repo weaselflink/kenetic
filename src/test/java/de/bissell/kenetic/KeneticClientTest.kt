@@ -11,8 +11,8 @@ import kotlin.concurrent.thread
 
 class KeneticClientTest {
 
-    lateinit var peerMock: DatagramSocket
-    lateinit var objectUnderTest: KeneticClient
+    private lateinit var peerMock: DatagramSocket
+    private lateinit var objectUnderTest: KeneticClient
 
     @Before
     fun startPeerMock() {
@@ -32,7 +32,7 @@ class KeneticClientTest {
         assertReceiveWithMock("bar")
     }
 
-    fun assertReceiveWithMock(expected: String) {
+    private fun assertReceiveWithMock(expected: String) {
         var data: ByteArray? = null
         thread {
             data = receivePacket(peerMock)

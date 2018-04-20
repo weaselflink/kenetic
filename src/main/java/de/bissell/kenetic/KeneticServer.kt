@@ -6,17 +6,16 @@ import kotlin.concurrent.thread
 
 class KeneticServer(port: Int? = null) {
 
-    private val socket: DatagramSocket
+    private val socket: DatagramSocket = if (port != null) {
+        DatagramSocket(port)
+    } else {
+        DatagramSocket()
+    }
     private var nextMessage: KeneticMessage? = null
 
     val localPort: Int
 
     init {
-        if (port != null) {
-            socket = DatagramSocket(port)
-        } else {
-            socket = DatagramSocket()
-        }
         localPort = socket.localPort
 
         thread {

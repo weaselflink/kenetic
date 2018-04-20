@@ -11,8 +11,8 @@ import java.net.InetAddress
 
 class KeneticServerTest {
 
-    lateinit var peerMock: DatagramSocket
-    lateinit var objectUnderTest: KeneticServer
+    private lateinit var peerMock: DatagramSocket
+    private lateinit var objectUnderTest: KeneticServer
 
     @Before
     fun startPeerMock() {
@@ -32,7 +32,7 @@ class KeneticServerTest {
         assertServerReceived("foo")
     }
 
-    fun assertServerReceived(expected: String) {
+    private fun assertServerReceived(expected: String) {
         Awaitility.await().atMost(Duration.FIVE_SECONDS).untilAsserted {
             val message = objectUnderTest.receive()
             KotlinAssertions.assertThat(message).isNotNull()
