@@ -6,7 +6,6 @@ import org.awaitility.Duration
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.net.DatagramPacket
 import java.net.DatagramSocket
 import kotlin.concurrent.thread
 
@@ -34,12 +33,13 @@ class KeneticClientTest {
     }
 
     fun assertReceiveWithMock(expected: String) {
-        val packet = DatagramPacket(ByteArray(64), 64)
+        var data: ByteArray? = null
         thread {
-            peerMock.receive(packet)
+            data = receivePacket(peerMock)
         }
         Awaitility.await().atMost(Duration.FIVE_SECONDS).untilAsserted {
-            KotlinAssertions.assertThat(String(packet.data, 0, packet.length)).isEqualTo(expected)
+            KotlinAssertions.assertThat(data).isNotNull()
+            KotlinAssertions.assertThat(String(data!!)).isEqualTo(expected)
         }
     }
 }

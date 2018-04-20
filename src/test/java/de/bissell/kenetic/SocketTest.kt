@@ -20,9 +20,7 @@ class SocketTest {
         thread {
             receiveSocket.receive(receivePacket)
         }
-        val payload = "dummy".toByteArray()
-        val sendPacket = DatagramPacket(payload, 0, payload.size, InetAddress.getLocalHost(), receiveSocket.localPort)
-        sendSocket.send(sendPacket)
+        sendPacket(sendSocket, "dummy".toByteArray(), InetAddress.getLocalHost(), receiveSocket.localPort)
 
         Awaitility.await().atMost(Duration.FIVE_SECONDS).untilAsserted {
             KotlinAssertions.assertThat(String(receivePacket.data, 0, receivePacket.length)).isEqualTo("dummy")
