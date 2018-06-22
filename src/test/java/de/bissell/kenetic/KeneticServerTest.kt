@@ -27,7 +27,8 @@ class KeneticServerTest {
 
     @Test
     fun sendsMessage() {
-        sendPacket(peerMock, "foo".toByteArray(), InetAddress.getLocalHost(), objectUnderTest.localPort)
+        val packet = KeneticMessage(KeneticMessageType.MESSAGE, "foo").bytes
+        sendPacket(peerMock, packet, InetAddress.getLocalHost(), objectUnderTest.localPort)
 
         assertServerReceived("foo")
     }

@@ -33,7 +33,7 @@ class KeneticServer(port: Int? = null) {
         while (true) {
             Awaitility.await().until { nextMessage == null }
             val packet = receivePacket(socket)
-            nextMessage = KeneticMessage(String(packet))
+            nextMessage = decodeMessage(packet)
         }
     }
 }

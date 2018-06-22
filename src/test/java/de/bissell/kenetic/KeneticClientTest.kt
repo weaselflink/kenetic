@@ -27,7 +27,7 @@ class KeneticClientTest {
 
     @Test
     fun sendsMessage() {
-        objectUnderTest.send(KeneticMessage("bar"))
+        objectUnderTest.send(KeneticMessage(KeneticMessageType.MESSAGE, "bar"))
 
         assertReceiveWithMock("bar")
     }
@@ -39,7 +39,8 @@ class KeneticClientTest {
         }
         Awaitility.await().atMost(Duration.FIVE_SECONDS).untilAsserted {
             KotlinAssertions.assertThat(data).isNotNull()
-            KotlinAssertions.assertThat(String(data!!)).isEqualTo(expected)
+            KotlinAssertions.assertThat(decodeMessage(data!!).type).isEqualTo(KeneticMessageType.MESSAGE)
+            KotlinAssertions.assertThat(decodeMessage(data!!).payload).isEqualTo(expected)
         }
     }
 }

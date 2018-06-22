@@ -8,6 +8,6 @@ class KeneticClient(private val address: KeneticAddress) {
     private val socket: DatagramSocket = DatagramSocket()
 
     fun send(message: KeneticMessage) {
-        sendPacket(socket, message.payload.toByteArray(), InetAddress.getByName(address.host), address.port)
+        sendPacket(socket, message.bytes, InetAddress.getByName(address.host), address.port)
     }
 }
