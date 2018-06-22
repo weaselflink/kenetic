@@ -7,9 +7,7 @@ data class KeneticMessage(val type: KeneticMessageType, val payload: ByteArray =
     private fun generateBytes(): ByteArray {
         val result = mutableListOf<Byte>()
         result.add(type.code)
-        if (payload != null) {
-            result.addAll(payload.toList())
-        }
+        result.addAll(payload.toList())
         return result.toByteArray()
     }
 }
