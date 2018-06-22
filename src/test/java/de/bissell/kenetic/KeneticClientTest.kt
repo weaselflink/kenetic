@@ -27,12 +27,13 @@ class KeneticClientTest {
 
     @Test
     fun sendsMessage() {
-        objectUnderTest.send(KeneticMessage(KeneticMessageType.MESSAGE, "bar"))
+        val payload = "bar".toByteArray()
+        objectUnderTest.send(KeneticMessage(KeneticMessageType.MESSAGE, payload))
 
-        assertReceiveWithMock("bar")
+        assertReceiveWithMock(payload)
     }
 
-    private fun assertReceiveWithMock(expected: String) {
+    private fun assertReceiveWithMock(expected: ByteArray) {
         var data: ByteArray? = null
         thread {
             data = receivePacket(peerMock)

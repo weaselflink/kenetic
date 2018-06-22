@@ -1,6 +1,6 @@
 package de.bissell.kenetic
 
-data class KeneticMessage(val type: KeneticMessageType, val payload: String? = null) {
+data class KeneticMessage(val type: KeneticMessageType, val payload: ByteArray = ByteArray(0)) {
 
     val bytes by lazy { generateBytes() }
 
@@ -8,7 +8,7 @@ data class KeneticMessage(val type: KeneticMessageType, val payload: String? = n
         val result = mutableListOf<Byte>()
         result.add(type.code)
         if (payload != null) {
-            result.addAll(payload.toByteArray().toList())
+            result.addAll(payload.toList())
         }
         return result.toByteArray()
     }
@@ -19,7 +19,7 @@ enum class KeneticMessageType(val code: Byte) {
 }
 
 fun decodeMessage(packet: ByteArray) =
-        KeneticMessage(decodeMessageType(packet.get(0)), String(packet, 1, packet.size - 1))
+        KeneticMessage(decodeMessageType(packet.get(0)), packet.copyOfRange(1, packet.size))
 
 fun decodeMessageType(code: Byte) =
         KeneticMessageType.values().filter { it.code == code }.first()

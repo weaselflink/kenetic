@@ -27,13 +27,14 @@ class KeneticServerTest {
 
     @Test
     fun sendsMessage() {
-        val packet = KeneticMessage(KeneticMessageType.MESSAGE, "foo").bytes
+        val payload = "foo".toByteArray()
+        val packet = KeneticMessage(KeneticMessageType.MESSAGE, payload).bytes
         sendPacket(peerMock, packet, InetAddress.getLocalHost(), objectUnderTest.localPort)
 
-        assertServerReceived("foo")
+        assertServerReceived(payload)
     }
 
-    private fun assertServerReceived(expected: String) {
+    private fun assertServerReceived(expected: ByteArray) {
         Awaitility.await().atMost(Duration.FIVE_SECONDS).untilAsserted {
             val message = objectUnderTest.receive()
             KotlinAssertions.assertThat(message).isNotNull()
