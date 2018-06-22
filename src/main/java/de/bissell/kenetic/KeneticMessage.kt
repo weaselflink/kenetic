@@ -1,7 +1,5 @@
 package de.bissell.kenetic
 
-import java.nio.charset.StandardCharsets
-
 data class KeneticMessage(val type: KeneticMessageType, val payload: String? = null) {
 
     val bytes by lazy { generateBytes() }
@@ -10,7 +8,7 @@ data class KeneticMessage(val type: KeneticMessageType, val payload: String? = n
         val result = mutableListOf<Byte>()
         result.add(type.code)
         if (payload != null) {
-            result.addAll(payload.toByteArray(StandardCharsets.UTF_8).toList())
+            result.addAll(payload.toByteArray().toList())
         }
         return result.toByteArray()
     }
